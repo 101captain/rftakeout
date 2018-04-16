@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.bunfly.dao.HomeHealthMapper">
+  	<select id="getMaleStudentHealth" resultType="MaleHealthForm">
+  		select * from male_health_form where sid = #{id}
+  	</select>
+  	<select id="getFemaleStudentHealth" resultType="FemaleHealthForm">
+  		select * from female_health_form where sid = #{id}
+  	</select>
+  
+  </mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.bunfly.dao.HomeStudentMapper">
+  		<resultMap type="student" id="student">
+  			<id property="id" column="sid"/>
+  			<result property="name" column="sname"/>
+  			<association property="classes" javaType="classes" column="cid" select="com.bunfly.dao.HomeClassesMapper.selectClassesById">
+  			</association>
+  		</resultMap>
+  		
+  		
+  		<select id="selectStudentById" resultMap="student">
+  			select * from student where sid = #{id}
+  		</select>
+  		<resultMap type="student" id="student2">
+  			<id property="id" column="sid"/>
+  			<result property="name" column="sname"/>
+  			<result property="sex" column="sex"/>
+  			<association property="classes" javaType="classes" column="cid" >
+  				<id property="id" column="id"/>
+  				<result property="name" column="name"/>
+  				<association property="teacher" javaType="teacher" column="tid">
+  					<id property="id" column="thid"/>
+  					<result property="name" column="tname"/>
+  				</association>
+  			</association>
+  		</resultMap>
+  		
+  		<select id="selectStudentById2" resultMap="student2">
+  			SELECT student.*,class.*,teacher.id thid,teacher.`name` tname FROM student LEFT JOIN class on student.cid = class.id LEFT JOIN teacher on class.tid = teacher.id WHERE student.sid =#{id}
+  		</select>
+  		
+  		<resultMap type="student" id="student3">
+  			<id property="id" column="sid"/>
+  			<result property="name" column="sname"/>
+  			<discriminator javaType="int" column="sex">
+  				<case value="0" resultMap="femaleHealthForm"></case>
+  				<case value="1" resultMap="maleHealthForm"></case>
+  			</discriminator>
+  		</resultMap>
+  		
+  		<select id="selectStudentAll" resultMap="student3">
+  			select * from student
+  		</select>
+  		
+  		<resultMap type="maleStudent" id="maleHealthForm" extends="student">
+  			<association property="maleHealthForm" column="sid" select="com.bunfly.dao.HomeHealthMapper.getMaleStudentHealth"></association>
+  		</resultMap>
+  		
+  		<resultMap type="femaleStudent" id="femaleHealthForm" extends="student">
+  			<association property="femaleHealthForm" column="sid" select="com.bunfly.dao.HomeHealthMapper.getFemaleStudentHealth"></association>
+  		</resultMap>
+  		
+  </mapper>
