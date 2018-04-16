@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- 
+  	namespace 命名空间用来区分不同的mapper,
+  	避免查询id在不同mapper的冲突
+  	通常使用接口的全路径作为namespace
+   -->
+<mapper namespace="com.bunfly.dao.UserDao">
+  <!-- 
+   根据用户编号获得用户对象的查询语句
+   id 查询语句表示，和对应的接口方法保持一致
+   parameterType 参数类型  parameterMap 已经废弃，不要使用
+   resultType 结果类型
+   #{id} OGNL  传参表达式
+   -->
+  <select id="getUserById" parameterType="int" resultType="com.bunfly.entity.User">
+  	select * from users where id=#{id}
+  </select>
+  
+</mapper>
